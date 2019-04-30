@@ -76,8 +76,8 @@
                     <form>
                         <table class="form-elements">
                             <tr>
-                                <td><input type="text" name="Name" placeholder="Name" class="fieldName"></td>
-                                <td><input type="checkbox" name="Reqiured" class="fieldIsRequired">Required?</td>
+                                <td><input type="text" id="fieldName"></td>
+                                <td><input type="checkbox" id="fieldIsRequired">Required?</td>
                                 <td>
                                     <select class="fieldDataType" name="DataType">
                                         <option value="Number">Number</option>
@@ -122,16 +122,13 @@
                 }
             });
         });
+    });
+</script>
 
-        var add = $('.add');
-        var wrap = $('.form-elements');
-        var fieldName = $('.fieldName').val();
-        console.log(fieldName);
-        var fieldIsRequired = $('.fieldIsRequired').is(':checked');
-        var fieldDataType = $('.fieldDataType').find(':selected').text();
-        var filled = '<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td></tr>';
-        $(add).click(function () {
-            $(wrap).append(filled);
+<script>
+    $(document).ready(function () {
+        $($('.add')).click(function () {
+            $($('.form-elements')).append('<tr><td>' + $('#fieldName').val() + '</td><td>' + $('#fieldIsRequired').is(':checked') + '</td><td>' + $('.fieldDataType').find(':selected').text() + '</td></tr>');
         });
     });
 </script>
