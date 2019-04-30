@@ -74,17 +74,17 @@
             <div class="modal-body">
                 <div class="form-group">
                     <form>
-                        <table>
+                        <table class="form-elements">
                             <tr>
-                                <td><input type="text" name="Name" placeholder="Name"></td>
-                                <td><input type="checkbox" name="Reqiured">Required?</td>
+                                <td><input type="text" name="Name" placeholder="Name" class="fieldName"></td>
+                                <td><input type="checkbox" name="Reqiured" class="fieldIsRequired">Required?</td>
                                 <td>
-                                    <select class="datatype" name="DataType">
+                                    <select class="fieldDataType" name="DataType">
                                         <option value="Number">Number</option>
                                         <option value="String">String</option>
                                     </select>
                                 </td>
-                                <td><button name="">Add More</button></td>
+                                <td><a class="add">Add</a></td>
                             </tr>
                         </table>
                         <input type="submit" name="submit" value="Submit">
@@ -121,6 +121,17 @@
                     $(this).hide();
                 }
             });
+        });
+
+        var add = $('.add');
+        var wrap = $('.form-elements');
+        var fieldName = $('.fieldName').val();
+        console.log(fieldName);
+        var fieldIsRequired = $('.fieldIsRequired').is(':checked');
+        var fieldDataType = $('.fieldDataType').find(':selected').text();
+        var filled = '<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td></tr>';
+        $(add).click(function () {
+            $(wrap).append(filled);
         });
     });
 </script>
