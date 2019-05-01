@@ -62,8 +62,8 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="min-width: 520px; min-height: 320px;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Create New Form</h5>
@@ -71,30 +71,48 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <form asp-action="AddNewForm">
             <div class="modal-body">
                 <div class="form-group">
-                    <form>
-                        <table class="form-elements">
+                        <table class="table form-elements">
                             <tr>
-                                <td><input type="text" id="fieldName"></td>
-                                <td><input type="checkbox" id="fieldIsRequired">Required?</td>
                                 <td>
-                                    <select class="fieldDataType" name="DataType">
+                                    <label class="form-check-label">Form Name</label>
+                                    <input type="text" id="formName" class="form-control formNameInput">
+                                </td>
+                                <td>
+                                    <label class="form-check-label">Description</label>
+                                    <input type="text" id="formDescription" class="form-control">
+                                </td>
+                                <td>
+                                    <p class="text-center">Add Fields Below</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="fieldName" class="form-control" placeholder="Name">
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input" id="fieldIsRequired" checked>
+                                    <label class="form-check-label" for="fieldIsRequired">Required</label>
+                                </td>
+                                <td>
+                                    <select id="fieldDataType" class="fieldDataType form-control" name="DataType">
                                         <option value="Number">Number</option>
                                         <option value="String">String</option>
                                     </select>
                                 </td>
-                                <td><a class="add">Add</a></td>
+                                <td><a class="add btn btn-primary text-white">Add</a></td>
                             </tr>
+
                         </table>
-                        <input type="submit" name="submit" value="Submit">
-                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Add New Form</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -126,9 +144,37 @@
 </script>
 
 <script>
+    var counter = 0;
+
     $(document).ready(function () {
         $($('.add')).click(function () {
-            $($('.form-elements')).append('<tr><td>' + $('#fieldName').val() + '</td><td>' + $('#fieldIsRequired').is(':checked') + '</td><td>' + $('.fieldDataType').find(':selected').text() + '</td></tr>');
-        });
+            var isRequired = $('#fieldIsRequired').is(':checked');
+            var dataType = $('#fieldDataType').find(':selected').text();
+            var fieldName = '<input type="text" name="Fields[' + counter + '].Name" class="form-control" value="' + $('.formNameInput').val() + '" placeholder="' + $('.formNameInput').val() + '">';
+            var fieldIsRequired, fieldDataType;
+            if (isRequired) {
+                fieldIsRequired = '<input type="checkbox" name="Fields[' + counter + '].Required" class="form-check-input" checked>';
+            }
+            else {
+                fieldIsRequired = '<input type="checkbox" name="Fields[' + counter + '].Required" class="form-check-input">';
+            }
+
+            console.log(fieldName);
+
+            if (dataType == "String") {
+                fieldDataType = '<select class="fieldDataType form-control" name="DataType">\
+                                <option value="Number">Number</option>\
+                                <option value="String" selected>String</option>\
+                                </select >';
+            }
+            else {
+                fieldDataType = '<select class="fieldDataType form-control" name="DataType">\
+                                <option value="Number" selected> Number</option>\
+                                <option value="String">String</option>\
+                                </select >';
+            }
+            $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td></tr>');
+            ++counter;
+            });
     });
 </script>
