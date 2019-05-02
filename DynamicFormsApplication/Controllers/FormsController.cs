@@ -47,7 +47,7 @@ namespace DynamicFormsApplication.Controllers
                 return NotFound();
             }
 
-            return View(form);
+            return View();
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace DynamicFormsApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(form);
+            return Redirect("Index");
         }
 
         // GET: Forms/Edit/5

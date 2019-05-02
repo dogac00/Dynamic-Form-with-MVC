@@ -86,7 +86,6 @@
 </script>
 
 <script>
-    var counter = 0;
     var fields = [];
     $(document).ready(function () {
         $($('.add')).click(function () {
@@ -115,8 +114,7 @@
                 fieldDataType = '<input type="hidden" name="fieldDataTypes" class="form-check-input" value="number">Number';
             }
             $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td><td><a class="btn btn-danger text-white remove">Remove</a></td></tr>');
-
-            ++counter;
+            
         });
 
         $($('.form-elements')).on('click', '.remove', function () {
