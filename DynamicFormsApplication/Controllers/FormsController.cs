@@ -84,9 +84,9 @@ namespace DynamicFormsApplication.Controllers
             };
 
             _context.Forms.Add(form);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return View("Forms/Index");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Forms/Edit/5

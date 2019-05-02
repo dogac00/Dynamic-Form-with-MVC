@@ -115,7 +115,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add New Form</button>
+                <button type="submit" class="btn btn-primary submit-button">Add New Form</button>
             </div>
             </form>
         </div>
@@ -135,13 +135,15 @@
         }
         $('.search-bar').keyup(function () {
             var textToSearch = $('.search-bar').val().toLowerCase();
-            $('.search-table tr').each(function () {
-                console.log($(this).firstChild)
-                if (Contains($(this.firstChild).text().toLowerCase(), textToSearch)) {
-                    $(this).show();
+             console.log("serach"+textToSearch);
+            $('.search-table tr td').each(function () {
+                console.log($(this));
+                if (Contains($(this).firstChild.text().toLowerCase(), textToSearch)) {
+                    $(this).parent().show();
+                    console.log("buldum" + $(this));
                 }
                 else {
-                    $(this).hide();
+                    $(this).parent().hide();
                 }
             });
         });
