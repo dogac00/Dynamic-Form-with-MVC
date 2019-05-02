@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DynamicFormsApplication.Data;
 using DynamicFormsApplication.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace DynamicFormsApplication.Controllers
 {
@@ -15,10 +18,12 @@ namespace DynamicFormsApplication.Controllers
     public class FormsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<IdentityUser> _userManager;
 
-        public FormsController(ApplicationDbContext context)
+        public FormsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Forms
@@ -45,26 +50,43 @@ namespace DynamicFormsApplication.Controllers
             return View(form);
         }
 
-        // GET: Forms/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Forms/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,CreatedBy")] Form form)
+        public async Task<IActionResult> Create(string formName, string formDescription, 
+            List<string> fieldNames, List<bool> fieldIsRequireds, List<string> fieldDataTypes)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(formName))
             {
-                _context.Add(form);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                throw new ArgumentException("message", nameof(formName));
             }
-            return View(form);
+
+            List<Field> fields = new List<Field>();
+
+            for (int i = 0; i < fieldNames.Count; ++i)
+            {
+                Field tempField = new Field()
+                {
+                    Required = fieldIsRequireds[i],
+                    Name = fieldNames[i],
+                    DataType = fieldDataTypes[i]
+                };
+
+                fields.Add(tempField);
+            }
+
+            Form form = new Form()
+            {
+                Name = formName,
+                Description = formDescription,
+                CreatedAt = DateTime.Now,
+                Fields = fields,
+                CreatedBy = User.Identity.Name
+            };
+
+            _context.Forms.Add(form);
+            _context.SaveChanges();
+
+            return View("Forms/Index");
         }
 
         // GET: Forms/Edit/5

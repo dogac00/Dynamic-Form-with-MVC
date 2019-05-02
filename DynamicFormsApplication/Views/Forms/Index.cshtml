@@ -71,18 +71,18 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="AddNewForm">
+            <form asp-action="Create">
             <div class="modal-body">
                 <div class="form-group">
                     <table class="table form-elements">
                         <tr>
                             <td>
                                 <label class="form-check-label">Form Name</label>
-                                <input type="text" id="formName" class="form-control">
+                                <input type="text" name="formName" class="form-control">
                             </td>
                             <td>
                                 <label class="form-check-label">Form Description</label>
-                                <textarea type="text" id="formDescription" class="form-control" rows="3" cols="25"></textarea>
+                                <textarea type="text" name="formDescription" class="form-control" rows="3" cols="25"></textarea>
                             </td>
                             <td>
                                 <p class="text-center"><b>Add Fields Below</b></p>
@@ -150,34 +150,35 @@
 
 <script>
     var counter = 0;
-
+    var fields =[];
     $(document).ready(function () {
         $($('.add')).click(function () {
             var isRequired = $('#fieldIsRequired').is(':checked');
             var dataType = $('#fieldDataType').find(':selected').val();
             var localFieldName = $('#fieldName').val();
-
+            
             if (localFieldName == "") {
                 alert("Field name can not be null.");
                 return;
             }
 
-            var fieldName = '<input type="hidden" name="Fields[' + counter + '].Name" class="form-control" value="' + localFieldName + '">' + localFieldName + '';
+            var fieldName = '<input type="hidden" name="fieldNames" class="form-control" value="' + localFieldName + '">' + localFieldName + '';
             var fieldIsRequired, fieldDataType;
             if (isRequired) {
-                fieldIsRequired = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input" checked>Required';
+                fieldIsRequired = '<input type="hidden" name="fieldIsRequireds" class="form-check-input" value="true" checked>Required';
             }
             else {
-                fieldIsRequired = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">Not Required';
+                fieldIsRequired = '<input type="hidden" name="fieldIsRequireds" class="form-check-input" value="false">Not Required';
             }
 
             if (dataType == "String") {
-                fieldDataType = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">String';
+                fieldDataType = '<input type="hidden" name="fieldDataTypes" class="form-check-input" value="string">String';
             }
             else {
-                fieldDataType = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">Number';
+                fieldDataType = '<input type="hidden" name="fieldDataTypes" class="form-check-input" value="number">Number';
             }
             $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td><td><a class="btn btn-danger text-white remove">Remove</a></td></tr>');
+            
             ++counter;
         });
 
