@@ -18,6 +18,7 @@ namespace DynamicFormsApplication.Models
 
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
-        public IList<Field> Fields { get; set; }
+
+        public IList<Field> Fields { get; set; } = new List<Field>();
     }
 }

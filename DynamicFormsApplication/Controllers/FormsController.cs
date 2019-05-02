@@ -32,22 +32,23 @@ namespace DynamicFormsApplication.Controllers
             return View(await _context.Forms.ToListAsync());
         }
 
-        // GET: Forms/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Forms/ViewForm/5
+        public async Task<IActionResult> ViewForm(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var form = await _context.Forms
+            var form = await _context.Forms.Include("Fields")
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (form == null)
             {
                 return NotFound();
             }
 
-            return View();
+            return View(form);
         }
 
         [HttpPost]
