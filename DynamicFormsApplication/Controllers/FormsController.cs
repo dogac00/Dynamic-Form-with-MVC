@@ -52,14 +52,9 @@ namespace DynamicFormsApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string formName, string formDescription, 
+        public async Task<IActionResult> Create(Form form, 
             List<string> fieldNames, List<bool> fieldIsRequireds, List<string> fieldDataTypes)
         {
-            if (string.IsNullOrEmpty(formName))
-            {
-                throw new ArgumentException("message", nameof(formName));
-            }
-
             List<Field> fields = new List<Field>();
 
             for (int i = 0; i < fieldNames.Count; ++i)
@@ -74,19 +69,18 @@ namespace DynamicFormsApplication.Controllers
                 fields.Add(tempField);
             }
 
-            Form form = new Form()
+            form.CreatedAt = DateTime.Now;
+            form.CreatedBy = User.Identity.Name;
+            form.Fields = fields;
+
+            if (ModelState.IsValid)
             {
-                Name = formName,
-                Description = formDescription,
-                CreatedAt = DateTime.Now,
-                Fields = fields,
-                CreatedBy = User.Identity.Name
-            };
+                _context.Forms.Add(form);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
-            _context.Forms.Add(form);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Home");
+            return View(form);
         }
 
         // GET: Forms/Edit/5

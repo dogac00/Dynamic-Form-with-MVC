@@ -19,8 +19,8 @@ namespace DynamicFormsApplication.Views.Shared.Components.BootstrapPopup
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var forms = await _context.Forms.ToListAsync();
-            return View(forms);
+            var form = await _context.Forms.FirstOrDefaultAsync();
+            return View(form);
         }
     }
 }

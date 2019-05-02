@@ -1,4 +1,4 @@
-﻿
+﻿@model DynamicFormsApplication.Models.Form
 
 @{
     ViewData["Title"] = "Default";
@@ -26,11 +26,11 @@
                             <tr>
                                 <td>
                                     <label class="form-check-label">Form Name</label>
-                                    <input type="text" name="formName" class="form-control">
+                                    <input type="text" asp-for="Name" class="form-control">
                                 </td>
                                 <td>
                                     <label class="form-check-label">Form Description</label>
-                                    <textarea type="text" name="formDescription" class="form-control" rows="3" cols="25"></textarea>
+                                    <textarea type="text" asp-for="Description" class="form-control" rows="3" cols="25"></textarea>
                                 </td>
                                 <td>
                                     <p class="text-center"><b>Add Fields Below</b></p>
