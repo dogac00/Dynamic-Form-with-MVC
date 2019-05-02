@@ -59,6 +59,7 @@
 @(await Component.InvokeAsync("BootstrapPopup"))
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 <script>
     $(document).ready(function () {
         function Contains(first, second) {
@@ -69,16 +70,18 @@
                 return false;
             }
         }
+
         $('.search-bar').keyup(function () {
             var textToSearch = $('.search-bar').val().toLowerCase();
-            console.log("serach" + textToSearch);
-            $('.search-table tr td').each(function () {
-                console.log($(this));
-                if (Contains($(this).firstChild.text().toLowerCase(), textToSearch)) {
-                    $(this).parent().show();
+            $('.search-table tr').each(function () {
+                var formName = $(this).children('td:first').text().trim().toLowerCase();
+                if (Contains(formName, textToSearch)) {
+                    console.log("true!!!!");
+                    $(this).show();
                 }
                 else {
-                    $(this).parent().hide();
+                    console.log("faalse!!");
+                    $(this).hide();
                 }
             });
         });
