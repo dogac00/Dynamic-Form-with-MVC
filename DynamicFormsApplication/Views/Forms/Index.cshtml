@@ -74,38 +74,43 @@
             <form asp-action="AddNewForm">
             <div class="modal-body">
                 <div class="form-group">
-                        <table class="table form-elements">
-                            <tr>
-                                <td>
-                                    <label class="form-check-label">Form Name</label>
-                                    <input type="text" id="formName" class="form-control formNameInput">
-                                </td>
-                                <td>
-                                    <label class="form-check-label">Description</label>
-                                    <input type="text" id="formDescription" class="form-control">
-                                </td>
-                                <td>
-                                    <p class="text-center">Add Fields Below</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" id="fieldName" class="form-control" placeholder="Name">
-                                </td>
-                                <td class="text-center">
-                                    <input type="checkbox" class="form-check-input" id="fieldIsRequired" checked>
-                                    <label class="form-check-label" for="fieldIsRequired">Required</label>
-                                </td>
-                                <td>
-                                    <select id="fieldDataType" class="fieldDataType form-control" name="DataType">
-                                        <option value="Number">Number</option>
-                                        <option value="String">String</option>
-                                    </select>
-                                </td>
-                                <td><a class="add btn btn-primary text-white">Add</a></td>
-                            </tr>
+                    <table class="table form-elements">
+                        <tr>
+                            <td>
+                                <label class="form-check-label">Form Name</label>
+                                <input type="text" id="formName" class="form-control">
+                            </td>
+                            <td>
+                                <label class="form-check-label">Form Description</label>
+                                <textarea type="text" id="formDescription" class="form-control" rows="3" cols="25"></textarea>
+                            </td>
+                            <td>
+                                <p class="text-center"><b>Add Fields Below</b></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Form Fields Generator</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="fieldName" class="form-control" placeholder="Field Name">
+                            </td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input" id="fieldIsRequired" checked>
+                                <label class="form-check-label" for="fieldIsRequired">Required</label>
+                            </td>
+                            <td>
+                                <select id="fieldDataType" class="fieldDataType form-control" name="DataType">
+                                    <option value="Number">Number</option>
+                                    <option value="String">String</option>
+                                </select>
+                            </td>
+                            <td><a class="add btn btn-primary text-white">Add</a></td>
+                        </tr>
 
-                        </table>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">
@@ -149,32 +154,35 @@
     $(document).ready(function () {
         $($('.add')).click(function () {
             var isRequired = $('#fieldIsRequired').is(':checked');
-            var dataType = $('#fieldDataType').find(':selected').text();
-            var fieldName = '<input type="text" name="Fields[' + counter + '].Name" class="form-control" value="' + $('.formNameInput').val() + '" placeholder="' + $('.formNameInput').val() + '">';
+            var dataType = $('#fieldDataType').find(':selected').val();
+            var localFieldName = $('#fieldName').val();
+
+            if (localFieldName == "") {
+                alert("Field name can not be null.");
+                return;
+            }
+
+            var fieldName = '<input type="hidden" name="Fields[' + counter + '].Name" class="form-control" value="' + localFieldName + '">' + localFieldName + '';
             var fieldIsRequired, fieldDataType;
             if (isRequired) {
-                fieldIsRequired = '<input type="checkbox" name="Fields[' + counter + '].Required" class="form-check-input" checked>';
+                fieldIsRequired = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input" checked>Required';
             }
             else {
-                fieldIsRequired = '<input type="checkbox" name="Fields[' + counter + '].Required" class="form-check-input">';
+                fieldIsRequired = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">Not Required';
             }
-
-            console.log(fieldName);
 
             if (dataType == "String") {
-                fieldDataType = '<select class="fieldDataType form-control" name="DataType">\
-                                <option value="Number">Number</option>\
-                                <option value="String" selected>String</option>\
-                                </select >';
+                fieldDataType = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">String';
             }
             else {
-                fieldDataType = '<select class="fieldDataType form-control" name="DataType">\
-                                <option value="Number" selected> Number</option>\
-                                <option value="String">String</option>\
-                                </select >';
+                fieldDataType = '<input type="hidden" name="Fields[' + counter + '].Required" class="form-check-input">Number';
             }
-            $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td></tr>');
+            $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td><td><a class="btn btn-danger text-white remove">Remove</a></td></tr>');
             ++counter;
-            });
+        });
+
+        $($('.form-elements')).on('click', '.remove', function () {
+            $(this).parent().parent().remove();
+        });
     });
 </script>
