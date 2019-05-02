@@ -56,71 +56,7 @@
     </table>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Create New Form
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="min-width: 520px; min-height: 320px;">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Create New Form</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form asp-action="Create">
-            <div class="modal-body">
-                <div class="form-group">
-                    <table class="table form-elements">
-                        <tr>
-                            <td>
-                                <label class="form-check-label">Form Name</label>
-                                <input type="text" name="formName" class="form-control">
-                            </td>
-                            <td>
-                                <label class="form-check-label">Form Description</label>
-                                <textarea type="text" name="formDescription" class="form-control" rows="3" cols="25"></textarea>
-                            </td>
-                            <td>
-                                <p class="text-center"><b>Add Fields Below</b></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>Form Fields Generator</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="fieldName" class="form-control" placeholder="Field Name">
-                            </td>
-                            <td class="text-center">
-                                <input type="checkbox" class="form-check-input" id="fieldIsRequired" checked>
-                                <label class="form-check-label" for="fieldIsRequired">Required</label>
-                            </td>
-                            <td>
-                                <select id="fieldDataType" class="fieldDataType form-control" name="DataType">
-                                    <option value="Number">Number</option>
-                                    <option value="String">String</option>
-                                </select>
-                            </td>
-                            <td><a class="add btn btn-primary text-white">Add</a></td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary submit-button">Add New Form</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
+@(await Component.InvokeAsync("BootstrapPopup"))
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
@@ -135,12 +71,11 @@
         }
         $('.search-bar').keyup(function () {
             var textToSearch = $('.search-bar').val().toLowerCase();
-             console.log("serach"+textToSearch);
+            console.log("serach" + textToSearch);
             $('.search-table tr td').each(function () {
                 console.log($(this));
                 if (Contains($(this).firstChild.text().toLowerCase(), textToSearch)) {
                     $(this).parent().show();
-                    console.log("buldum" + $(this));
                 }
                 else {
                     $(this).parent().hide();
@@ -152,13 +87,13 @@
 
 <script>
     var counter = 0;
-    var fields =[];
+    var fields = [];
     $(document).ready(function () {
         $($('.add')).click(function () {
             var isRequired = $('#fieldIsRequired').is(':checked');
             var dataType = $('#fieldDataType').find(':selected').val();
             var localFieldName = $('#fieldName').val();
-            
+
             if (localFieldName == "") {
                 alert("Field name can not be null.");
                 return;
@@ -180,7 +115,7 @@
                 fieldDataType = '<input type="hidden" name="fieldDataTypes" class="form-check-input" value="number">Number';
             }
             $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td><td><a class="btn btn-danger text-white remove">Remove</a></td></tr>');
-            
+
             ++counter;
         });
 
