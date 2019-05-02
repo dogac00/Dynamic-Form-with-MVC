@@ -75,11 +75,9 @@
             $('.search-table tr').each(function () {
                 var formName = $(this).children('td:first').text().trim().toLowerCase();
                 if (Contains(formName, textToSearch)) {
-                    console.log("true!!!!");
                     $(this).show();
                 }
                 else {
-                    console.log("faalse!!");
                     $(this).hide();
                 }
             });
@@ -88,7 +86,6 @@
 </script>
 
 <script>
-    var fields = [];
     $(document).ready(function () {
         $($('.add')).click(function () {
             var isRequired = $('#fieldIsRequired').is(':checked');
@@ -115,8 +112,8 @@
             else {
                 fieldDataType = '<input type="hidden" name="fieldDataTypes" class="form-check-input" value="number">Number';
             }
+
             $($('.form-elements')).append('<tr><td>' + fieldName + '</td><td>' + fieldIsRequired + '</td><td>' + fieldDataType + '</td><td><a class="btn btn-danger text-white remove">Remove</a></td></tr>');
-            
         });
 
         $($('.form-elements')).on('click', '.remove', function () {

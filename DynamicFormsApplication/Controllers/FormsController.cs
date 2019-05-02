@@ -84,57 +84,6 @@ namespace DynamicFormsApplication.Controllers
             return Redirect("Index");
         }
 
-        // GET: Forms/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _context.Forms.FindAsync(id);
-            if (form == null)
-            {
-                return NotFound();
-            }
-            return View(form);
-        }
-
-        // POST: Forms/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt,CreatedBy")] Form form)
-        {
-            if (id != form.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(form);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FormExists(form.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(form);
-        }
-
         // GET: Forms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

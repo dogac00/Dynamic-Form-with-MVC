@@ -1,7 +1,7 @@
 ﻿@model DynamicFormsApplication.Models.Form
 
 @{
-    ViewData["Title"] = "Default";
+    ViewData["Title"] = "Create a new Form";
 }
 
 <!-- Button trigger modal -->
@@ -78,7 +78,6 @@
     $(document).ready(function () {
         var nameError = $('.name-error-span');
         var descrError = $('.descr-error-span');
-        var form = $('#my-form-id');
         var flag;
 
         nameError.text('Name is required!');
@@ -91,8 +90,6 @@
 
             nameError.hide();
             descrError.hide();
-            console.log($('.form-name-input').val());
-            console.log($('.form-descr-input').val());
 
             if ($('.form-name-input').val() == "") {
                 nameError.show();
@@ -106,25 +103,6 @@
 
             if (flag) {
                 event.preventDefault();
-            }
-        });
-
-        form.submit( function () {
-            console.log($('#form-name-input'));
-            console.log($('#form-descr-input').val());
-
-            if ($('#form-name-input').val() == "") {
-                nameError.show();
-                flag = true;
-            }
-
-            if ($('#form-descr-input').val() == "") {
-                descrError.show();
-                flag = true;
-            }
-
-            if (flag == true) {
-                return false;
             }
         });
     });
