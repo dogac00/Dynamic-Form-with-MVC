@@ -33,6 +33,7 @@ namespace DynamicFormsApplication.Controllers
         }
 
         // GET: Forms/ViewForm/5
+        [HttpGet]
         public async Task<IActionResult> ViewForm(int? id)
         {
             if (id == null)
